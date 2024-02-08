@@ -11,17 +11,7 @@ class SocialPost extends Model
     protected $table = 'social_post';
     protected $fillable = [
         'user_id',
-        'content',
-        'likes',
-        'dislikes',
-        'republish',
-        'type',
-        'address',
-        'is_festival',
-        'is_rankings',
-        'categorie',
-        'tag',
-        'event_id'
+        'address'
     ];
     public $timestamps = true;
 

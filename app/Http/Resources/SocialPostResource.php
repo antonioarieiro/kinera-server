@@ -30,7 +30,11 @@ class SocialPostResource extends JsonResource
             'dislikes' => $this->dislikes,
             'polkadotUserName' => '',
             'address' => $this->address,
-            'type' => $this->type
+            'type' => $this->type,
+            'is_festival' => $this->is_festival,
+            'is_rankings' => $this->is_rankings,
+            'event_id' => $this->event_id,
+            'category' => $this->category
         ];
     }
 }

@@ -22,7 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('users')->group(function () {
     Route::get('/{user}', [UserProfileController::class, 'get']);
+    Route::get('/follow/{id}/{follow}', [UserProfileController::class, 'verifyFollow']);
     Route::post('/user', [UserProfileController::class, 'create']);
+    Route::post('/follow/{id}/{follow}', [UserProfileController::class, 'follow']);
+    Route::post('/unfollow/{id}/{follow}', [UserProfileController::class, 'unfollow']);
 });
 
 Route::prefix('social')->group(function () {

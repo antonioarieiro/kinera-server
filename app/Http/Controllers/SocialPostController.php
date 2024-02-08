@@ -17,8 +17,10 @@ class SocialPostController extends Controller
             'type' => 'required|string',
         ]);
 
-        // Verificar se o usuário já existe na tabela user_profiles
         $userProfile = UserProfile::where('user', $request->address)->first();
+
+
+        
 
         if (!$userProfile) {
             // Se o usuário não existe, retornar um erro
@@ -34,6 +36,11 @@ class SocialPostController extends Controller
             'dislikes' => 0,
             'republish' => 0,
             'type' => $request->type,
+            'event_id' => isset($request->event_id) ? $request->event_id : 0,
+            'tag' => isset($request->tag) ? $request->tag : null,
+            'is_festival' => isset($request->isFestival) ? $request->isFestival : null,
+            'categorie' => isset($request->categorie[0]) ? $request->categorie[0][0] : null,
+            'is_rankings' => isset($request->isRanking) ? $request->isRanking : null,
         ]);
 
         return response()->json($socialPost, 201);
