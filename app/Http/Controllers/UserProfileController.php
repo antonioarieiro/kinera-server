@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Models\UserProfile;
+use App\Models\SocialPost;
 use App\Models\Follower;
 use Illuminate\Http\Request;
 
@@ -11,14 +12,16 @@ class UserProfileController extends Controller
         $request->validate([
             'user' => 'required',
             'img' => 'nullable|image',
-            'name' => 'nullable|unique:user_profile,name', 
+            'name' => 'nullable|string', 
             'description' => 'nullable',
         ]);
-
-        if ($request->has('name') && UserProfile::where('name', $request->name)->exists()) {
+    
+        // Verifica se o nome já existe e se o nome não é o mesmo do usuário existente
+        if ($request->has('name') && UserProfile::where('name', $request->name)->where('user', '!=', $request->user)->exists()) {
             return response()->json(['error' => true, 'isExist' => true, 'message' => 'Nome já existe.'], 422);
         }
     
+        // Cria ou atualiza o perfil do usuário
         $userProfile = UserProfile::firstOrNew(['user' => $request->user]);
     
         if ($request->hasFile('img')) {
@@ -38,7 +41,6 @@ class UserProfileController extends Controller
     
         return response()->json(['message' => 'Perfil criado ou atualizado com sucesso!', 'data' => $userProfile]);
     }
-
     public function follow($id, $follow)
     {
 

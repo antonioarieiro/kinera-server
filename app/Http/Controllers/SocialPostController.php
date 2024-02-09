@@ -67,6 +67,15 @@ class SocialPostController extends Controller
 
         return SocialPostResource::collection($socialPosts);
     }
+
+    public function getPostsByUser($user)
+    {
+
+        $userPosts = SocialPost::where('address', $user)->get();
+    
+
+        return SocialPostResource::collection($userPosts);
+    }
     
 
 }

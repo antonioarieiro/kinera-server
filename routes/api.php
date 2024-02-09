@@ -26,12 +26,15 @@ Route::prefix('users')->group(function () {
     Route::post('/user', [UserProfileController::class, 'create']);
     Route::post('/follow/{id}/{follow}', [UserProfileController::class, 'follow']);
     Route::post('/unfollow/{id}/{follow}', [UserProfileController::class, 'unfollow']);
+    
 });
 
 Route::prefix('social')->group(function () {
     Route::get('/{id}', [SocialPostController::class, 'getById']);
     Route::get('', [SocialPostController::class, 'getAllPosts']);
+    Route::get('/posts/{user}', [SocialPostController::class, 'getPostsByUser']);
     Route::post('', [SocialPostController::class, 'create']);
+    
 });
 
 Route::prefix('comment')->group(function () {
