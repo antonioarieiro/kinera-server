@@ -49,6 +49,12 @@ class UserProfileController extends Controller
             return response()->json(['message' => 'Perfil não encontrado'], 404);
         }
 
+        $addFollowing = UserProfile::where('user', $follow)->first();
+        if($addFollowing) {
+          $addFollowing->following += 1;
+          $addFollowing->save();
+        }
+
        $userProfile->followers += 1;
        $userProfile->save();
        $userProfile->save();
@@ -69,6 +75,12 @@ class UserProfileController extends Controller
 
         if (!$userProfile) {
             return response()->json(['message' => 'Perfil não encontrado'], 404);
+        }
+
+        $addFollowing = UserProfile::where('user', $follow)->first();
+        if($addFollowing) {
+          $addFollowing->following -= 1;
+          $addFollowing->save();
         }
 
         $userProfile->followers -= 1;
