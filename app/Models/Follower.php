@@ -13,7 +13,10 @@ class Follower extends Model
     protected $table = 'followers';
     protected $fillable = [
         'user_id',
-        'address'
+        'address',
+        'name',
+        'img',
+        'follow_name'
     ];
  
 }

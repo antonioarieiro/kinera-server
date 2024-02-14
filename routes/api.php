@@ -34,6 +34,8 @@ Route::prefix('social')->group(function () {
     Route::get('', [SocialPostController::class, 'getAllPosts']);
     Route::get('/posts/{user}', [SocialPostController::class, 'getPostsByUser']);
     Route::post('', [SocialPostController::class, 'create']);
+    Route::get('/folowers/{user}', [UserProfileController::class, 'getFollowers']);
+    Route::get('/followings/{user}', [UserProfileController::class, 'getFollowings']);
     
 });
 

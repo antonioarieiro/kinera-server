@@ -22,7 +22,7 @@ class SocialPostResource extends JsonResource
         return [
             'avatarSrc' => $imgUrl,
             'username' => $userProfile->name,
-            'time' => null, // Altere conforme necessário
+            'time' => $this->created_at, // Altere conforme necessário
             'message' => $this->content,
             'video' => false, // Altere conforme necessário
             'id' => $this->id,
