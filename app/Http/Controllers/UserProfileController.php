@@ -43,32 +43,42 @@ class UserProfileController extends Controller
       return response()->json(['message' => 'Perfil criado ou atualizado com sucesso!', 'data' => $userProfile]);
   }
 
-  public function follow($id, $follow)
+  public function follow($target, $follow)
   {
 
-      $userProfile = UserProfile::where('user', $id)->first();
-      if (!$userProfile) {
-          return response()->json(['message' => 'Perfil não encontrado'], 404);
-      }
+    $userProfile = UserProfile::where('user', $target)->first();
+    $addFollowing = UserProfile::where('user', $follow)->first();
+    if (!$userProfile) {
+        return response()->json(['message' => 'Perfil não encontrado'], 404);
+    }
 
-      $addFollowing = UserProfile::where('user', $follow)->first();
-      if($addFollowing) {
-        $addFollowing->following += 1;
-        $addFollowing->save();
-      }
+    
+    if($addFollowing) {
+      $addFollowing->following += 1;
+      $addFollowing->save();
+    }
 
-      $userProfile->followers += 1;
-      $userProfile->save();
-      $userProfile->save();
-      Follower::create([
+    $userProfile->followers += 1;
+  
+    Following::create([
       'user_id' => $userProfile->id,
-      'address' => $follow,
-      'name' => $addFollowing->name,
+      'address' => $userProfile->user,
+      'name' => $userProfile->name,
       'img' => $addFollowing->img,
-      'follow_name' => $userProfile->name
-      ]);
-      
-      return response()->json($userProfile);
+      'follow_name' => $addFollowing->name,
+      'follower_id' => $addFollowing->id
+    ]);
+
+    Follower::create([
+    'user_id' => $userProfile->id,
+    'address' => $follow,
+    'name' => $userProfile->name,
+    'img' => $addFollowing->img,
+    'follow_name' => $addFollowing->name,
+    'follower_id' => $addFollowing->id
+    ]);
+    $userProfile->save();
+    return response()->json($userProfile);  
   }
 
   public function unfollow($id, $follow)
@@ -82,14 +92,16 @@ class UserProfileController extends Controller
 
       $addFollowing = UserProfile::where('user', $follow)->first();
       if($addFollowing) {
-        $addFollowing->following >= 0 ?? $addFollowing->following -= - 1;
+        $addFollowing->following =  $addFollowing->following -  1;
         $addFollowing->save();
       }
 
-      $userProfile->followers >= 0 ??  $userProfile->followers =  $userProfile->followers - 1;
+      $userProfile->followers >= 0 ??  $userProfile->followers -= 1;
       $userProfile->save();
 
-      Follower::where('user_id', $userProfile->id)->delete();
+      
+      Following::where('user_id', $userProfile->id)->where('address',$addFollowing->user)->delete();
+      Follower::where('user_id', $userProfile->id)->where('address',$addFollowing->user)->delete();
 
       return response()->json($userProfile);
   }
@@ -98,9 +110,9 @@ class UserProfileController extends Controller
   {
       $userProfile = UserProfile::where('user', $id)->first();
       if ($userProfile) {
-          $exists = Follower::leftJoin('user_profile', 'followers.user_id', '=', 'user_profile.id')
+          $exists = Follower::where('user_id', $userProfile->id)
               ->where('followers.address', $follow)
-              ->exists();
+              ->first();
           return response()->json(['exists' => $exists]);
       } else {
           return response()->json(['exists' => false]);
@@ -144,7 +156,7 @@ class UserProfileController extends Controller
 
       $userProfile = UserProfile::where('user', $user)->first();
 
-      $followers = Follower::where('address', $userProfile->user)->paginate($perPage, ['*'], 'page', $currentPage);
+      $followers = Following::where('follower_id', $userProfile->id)->paginate($perPage, ['*'], 'page', $currentPage);
 
       // Mapeia os seguidores para ajustar a URL da imagem
       $followers->getCollection()->transform(function ($follower) {

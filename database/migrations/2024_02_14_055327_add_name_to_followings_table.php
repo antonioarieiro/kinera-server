@@ -16,6 +16,7 @@ class AddNameToFollowingsTable extends Migration
         Schema::table('followings', function (Blueprint $table) {
             $table->string('name')->after('address')->nullable();
             $table->string('img')->nullable();
+            $table->string('follow_name')->after('address')->nullable();
         });
     }
 
@@ -29,6 +30,7 @@ class AddNameToFollowingsTable extends Migration
         Schema::table('followings', function (Blueprint $table) {
             $table->dropColumn('name');
             $table->dropColumn('img');
+            $table->dropColumn('follow_name');
         });
     }
 }

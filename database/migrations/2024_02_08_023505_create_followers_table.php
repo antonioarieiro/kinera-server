@@ -16,6 +16,7 @@ class CreateFollowersTable extends Migration
         Schema::create('followers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('user_profile');
+            $table->foreignId('follower_id')->constrained('user_profile');
             $table->string('address');
             // Adicione outras colunas, se necessário
             $table->timestamps();

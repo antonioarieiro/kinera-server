@@ -63,7 +63,7 @@ class SocialPostController extends Controller
         $perPage = $request->input('per_page', 30);
         $page = $request->input('page', 1);
 
-        $socialPosts = SocialPost::paginate($perPage, ['*'], 'page', $page);
+        $socialPosts = SocialPost::orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
 
         return SocialPostResource::collection($socialPosts);
     }

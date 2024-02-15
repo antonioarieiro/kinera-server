@@ -16,7 +16,8 @@ class Follower extends Model
         'address',
         'name',
         'img',
-        'follow_name'
+        'follow_name',
+        'follower_id'
     ];
  
 }
