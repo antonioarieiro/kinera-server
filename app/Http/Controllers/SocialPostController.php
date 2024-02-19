@@ -76,6 +76,39 @@ class SocialPostController extends Controller
 
         return SocialPostResource::collection($userPosts);
     }
+
+
+    public function editPost($id, Request $request)
+    {
+      $request->validate([
+        'user' => 'required|string',
+        'content' => 'required|string',
+      ]);
+
+      $post = SocialPost::where('user_id', $request->user)->where('id', $id)->first();
+      if(!$post) {
+        return response()->json(['error' => true], 404);
+      }
+      $post->content = $request->content;
+      $post->save();
+       return response()->json($post, 201);
+    }
+
+    public function removePost($id, Request $request)
+    {
+      $request->validate([
+        'user' => 'required|integer',
+      ]);
+
+      echo 'asa', $request->user;
+
+      $post = SocialPost::where('user_id', $request->user)->where('id', $id)->first();
+      if(!$post) {
+        return response()->json(['error' => true], 404);
+      }
+      $post->delete();
+       return response()->json($post, 201);
+    }
     
 
 }

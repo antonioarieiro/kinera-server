@@ -34,7 +34,8 @@ class SocialPostResource extends JsonResource
             'is_festival' => $this->is_festival,
             'is_rankings' => $this->is_rankings,
             'event_id' => $this->event_id,
-            'category' => $this->category
+            'category' => $this->category,
+            'user_id' => $this->user_id,
         ];
     }
 }

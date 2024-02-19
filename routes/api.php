@@ -32,11 +32,12 @@ Route::prefix('users')->group(function () {
 Route::prefix('social')->group(function () {
     Route::get('/{id}', [SocialPostController::class, 'getById']);
     Route::get('', [SocialPostController::class, 'getAllPosts']);
-    Route::get('/posts/{user}', [SocialPostController::class, 'getPostsByUser']);
-    Route::post('', [SocialPostController::class, 'create']);
     Route::get('/folowers/{user}', [UserProfileController::class, 'getFollowers']);
     Route::get('/followings/{user}', [UserProfileController::class, 'getFollowings']);
-    
+    Route::get('/posts/{user}', [SocialPostController::class, 'getPostsByUser']);
+    Route::post('', [SocialPostController::class, 'create']);
+    Route::post('post/{id}', [SocialPostController::class, 'editPost']);
+    Route::post('post/remove/{id}', [SocialPostController::class, 'removePost']);
 });
 
 Route::prefix('comment')->group(function () {
