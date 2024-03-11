@@ -5,24 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SocialPost extends Model
+class Notification extends Model
 {
     use HasFactory;
-    protected $table = 'social_post';
+    protected $table = 'notifications';
     protected $fillable = [
         'user_id',
-        'content',
-        'likes',
-        'dislikes',
-        'republish',
         'type',
-        'address',
-        'is_festival',
-        'is_rankings',
-        'categorie',
-        'tag',
-        'event_id',
-        'urls'
+        'content',
+        'status',
     ];
     public $timestamps = true;
 

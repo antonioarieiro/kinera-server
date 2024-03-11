@@ -10,5 +10,5 @@ class UserProfile extends Model
     use HasFactory;
     protected $table = 'user_profile';
 
-    protected $fillable = ['user', 'img', 'name', 'description'];
+    protected $fillable = ['user', 'img', 'name', 'description', 'cover'];
 }

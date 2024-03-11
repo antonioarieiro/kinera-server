@@ -12,7 +12,7 @@ class UserProfileController extends Controller
   {
       $request->validate([
           'user' => 'required',
-          'img' => 'nullable|image',
+       
           'name' => 'nullable|string', 
           'description' => 'nullable',
       ]);
@@ -29,6 +29,13 @@ class UserProfileController extends Controller
           $path = $request->file('img')->store('user_images', 'public');
           $userProfile->img = $path;
       }
+
+      if ($request->hasFile('cover')) {
+        $path = $request->file('cover')->store('user_cover', 'public');
+        $userProfile->cover = $path;
+      }
+
+      
   
       if ($request->has('name')) {
           $userProfile->name = $request->name;
@@ -129,7 +136,7 @@ class UserProfileController extends Controller
 
       // Se você estiver armazenando o caminho da imagem, pode ser necessário gerar a URL completa
       $userProfile->img = url('storage/' . $userProfile->img);
-
+      $userProfile->cover = url('storage/' . $userProfile->cover);
       return response()->json($userProfile);
   }
 

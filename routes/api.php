@@ -5,17 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SocialPostController;
 use App\Http\Controllers\CommentController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
+use App\Http\Controllers\NotificationController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -32,9 +22,11 @@ Route::prefix('users')->group(function () {
 Route::prefix('social')->group(function () {
     Route::get('/{id}', [SocialPostController::class, 'getById']);
     Route::get('', [SocialPostController::class, 'getAllPosts']);
+    Route::get('post/{id}', [SocialPostController::class, 'getPost']);
     Route::get('/folowers/{user}', [UserProfileController::class, 'getFollowers']);
     Route::get('/followings/{user}', [UserProfileController::class, 'getFollowings']);
     Route::get('/posts/{user}', [SocialPostController::class, 'getPostsByUser']);
+    Route::post('post/{id}', [SocialPostController::class, 'editPost']);
     Route::post('', [SocialPostController::class, 'create']);
     Route::post('post/{id}', [SocialPostController::class, 'editPost']);
     Route::post('post/remove/{id}', [SocialPostController::class, 'removePost']);
@@ -43,4 +35,11 @@ Route::prefix('social')->group(function () {
 Route::prefix('comment')->group(function () {
     Route::get('/{id}', [CommentController::class, 'getById']);
     Route::post('', [CommentController::class, 'create']);
+});
+
+Route::prefix('notification')->group(function () {
+  Route::get('', [NotificationController::class, 'viewAll']);
+  Route::get('/uu39', [NotificationController::class, 'getById']);
+  Route::post('', [NotificationController::class, 'create']);
+  Route::post('/remove', [NotificationController::class, 'removeAll']);
 });

@@ -20,22 +20,23 @@ class SocialPostResource extends JsonResource
         $imgUrl = $userProfile->img ? url('storage/' . $userProfile->img) : null;
 
         return [
-            'avatarSrc' => $imgUrl,
-            'username' => $userProfile->name,
-            'time' => $this->created_at, // Altere conforme necessário
-            'message' => $this->content,
-            'video' => false, // Altere conforme necessário
-            'id' => $this->id,
-            'likes' => $this->likes,
-            'dislikes' => $this->dislikes,
-            'polkadotUserName' => '',
-            'address' => $this->address,
-            'type' => $this->type,
-            'is_festival' => $this->is_festival,
-            'is_rankings' => $this->is_rankings,
-            'event_id' => $this->event_id,
-            'category' => $this->category,
-            'user_id' => $this->user_id,
-        ];
+          'avatarSrc' => $imgUrl,
+          'username' => $userProfile->name,
+          'time' => $this->created_at, // Altere conforme necessário
+          'message' => $this->content,
+          'video' => false, // Altere conforme necessário
+          'id' => $this->id,
+          'likes' => $this->likes,
+          'dislikes' => $this->dislikes,
+          'polkadotUserName' => '',
+          'address' => $this->address,
+          'type' => $this->type,
+          'is_festival' => $this->is_festival,
+          'is_rankings' => $this->is_rankings,
+          'event_id' => $this->event_id,
+          'category' => $this->category,
+          'user_id' => $this->user_id,
+          'urls' => explode(',', $this->urls),
+      ];
     }
 }
